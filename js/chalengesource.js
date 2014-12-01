@@ -47,6 +47,68 @@ $( "#reverse" ).click(function() {
     $("#textbox1").val(str2);
 
 });
+///////////////////////////////////////////////////////
+//Stage II
+///////////////////////////////////////////////////////
+
+$( "#find_Neddle" ).click(function() {
+
+  var haystack = $("#haystack").val();
+  var neddle = $("#neddle").val();
+  var index;
+
+  index = lookForNeddle(haystack,neddle);
+      //Print out results 
+      if(index == -1)
+      {
+            //Neddle was not in the haystack
+            document.getElementById('result').innerHTML = 'The Neddle was not found';
+      }
+      else{
+            //Print out the index
+            document.getElementById('result').innerHTML = 'The Neddle is at Index ' + index;
+      }
+
+  });
+function lookForNeddle(haystack,neddle) {
+      //Remove quoatations
+  haystack = haystack.replace(/['"]+/g, '');
+  //Insert the string as a an array on the variable
+  var array = haystack.split(',');
+  
+  var index = 0; 
+  if(haystack&&neddle){
+    //Check if the neddle is on the haystack, (comparing string and the array by indexes)
+      for(var i = 0; i < array.length;i++){
+        //Comparing neddle and every index on the haystack array
+        if(neddle == array[i].trim()){
+            index = i;
+            break;
+        }
+        else{
+            //Neddle is not on the haystack
+            if(i == (array.length-1))
+                index = -1;
+        }
+    }
+
+    return index;
+
+}
+}
+///////////////////////////////////////////////////////
+//Stage II
+///////////////////////////////////////////////////////
+
+
+//Example button writes down the haystack and the neddle on the textboxes
+$("#exampleII").click(function(){
+    $("#neddle").val("sqNgU");
+    $("#haystack").val('"1rMTE", "bMatw", "LqKjd", "P1PXU", "bDP7z", "tEQDZ", "fJpkW",'+
+        ' "L6G4M", "AACBY", "nc3mF", "0jSIl", "T5W12", "emIep", "sqNgU", "1kTsh", "8d9ri", "0iZrj", "sGTqK", "GKZxv", "cBTWL"');
+    
+});
+
 
 
 // Google Maps Scripts
