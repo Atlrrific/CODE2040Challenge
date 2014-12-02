@@ -122,6 +122,14 @@ function lookForNeddle(array,neddle) {
     return -2;
 }
 
+//Example button writes down the haystack and the neddle on the textboxes
+$("#exampleII").click(function(){
+    $("#neddle").val("sqNgU");
+    $("#haystack").val('"1rMTE", "bMatw", "LqKjd", "P1PXU", "bDP7z", "tEQDZ", "fJpkW",'+
+        ' "L6G4M", "AACBY", "nc3mF", "0jSIl", "T5W12", "emIep", "sqNgU", "1kTsh", "8d9ri", "0iZrj", "sGTqK", "GKZxv", "cBTWL"');
+    
+});
+
 ///////////////////////////////////////////////////////
 //Stage III
 ///////////////////////////////////////////////////////
@@ -175,7 +183,7 @@ function stringsWithoutPrefix(array,prefix) {
 
   var result;
 
-  var stringsWithoutPrefix = new Array();;
+  var stringsWithoutPrefix = new Array();
     if(array&&prefix){
     //Iterate thorugh the array, checking if the array element start with the prefix
         for(var i = 0; i < array.length;i++){
@@ -207,152 +215,160 @@ $("#exampleIII").click(function(){
     
 });
 
+///////////////////////////////////////////////////////
+//Stage IV
+///////////////////////////////////////////////////////
+/**
+ * NAME : dateStampButton button click function
+ *
+ * Grab data from the timeStamp and irval text boxes and 
+ * dellegates to addDate the addition of the interval with
+ * the date stamp
+ * Prints out the new date stamp
+ */
+
+$( "#dateStampButton" ).click(function() {
+
+  var dateStamp = $("#timeStamp").val();
+  var interval = parseFloat($("#interval").val());
+    //Remove quoatations
+
+  //Delegating index to lookForNeddle Function
+  var dateResult = addDate(dateStamp,interval);
+      //Print out results 
+      if(!dateResult){
+        document.getElementById('resultIV').innerHTML = 'Write the prefix and the string array on the texboxes, ' + 
+                            'or look at an example by clicking the example button';
+      }
+      else{
+        document.getElementById('resultIV').innerHTML = 'The date stamp plus the interval is  ' + dateResult;
+
+      }
+
+  });
 
 
-// Google Maps Scripts
-// When the window has finished loading create our google map below
-google.maps.event.addDomListener(window, 'load', init);
+/**
+ * NAME: addDate
+ * Adds the interval in seconds to the day stamp
+ * @param array : interval in seconds
+ * @param neddle :  Date stamp in ISO 8601 format
+ * @return new date stamp
+ */
+function addDate(dateStamp,interval) {
+  
+    //Ratios
+    var secYearRatio = 1/(60*60*24*30.4368*12);
+    var yearMonthRatio  = 12;
+    var monthDayRatio = 30.4;
+    var dayHourRatio = 24;
+    var hourMinRatio = 60;
+    var minSecRatio = 60;
 
-function init() {
-    // Basic options for a simple Google Map
-    // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-    var mapOptions = {
-        // How zoomed in you want the map to start at (always required)
-        zoom: 15,
+    //Datestamp date units
+    var oldYear;
+    var oldMonth;
+    var oldDay;
+    var oldHour;
+    var oldMin;
+    var oldSec;
 
-        // The latitude and longitude to center the map (always required)
-        center: new google.maps.LatLng(40.6700, -73.9400), // New York
+    //Interval date units
+    var addYears;
+    var addMonths;
+    var addDays;
+    var addHours;
+    var addMin;
+    var addSec;
 
-        // Disables the default Google Maps UI components
-        disableDefaultUI: true,
-        scrollwheel: false,
-        draggable: false,
+    //Unit Carry
+    var unitCarry1;
+    var temp;
 
-        // How you would like to style the map. 
-        // This is where you would paste any style found on Snazzy Maps.
-        styles: [{
-            "featureType": "water",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 17
-            }]
-        }, {
-            "featureType": "landscape",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 20
-            }]
-        }, {
-            "featureType": "road.highway",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 17
-            }]
-        }, {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 29
-            }, {
-                "weight": 0.2
-            }]
-        }, {
-            "featureType": "road.arterial",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 18
-            }]
-        }, {
-            "featureType": "road.local",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 16
-            }]
-        }, {
-            "featureType": "poi",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 21
-            }]
-        }, {
-            "elementType": "labels.text.stroke",
-            "stylers": [{
-                "visibility": "on"
-            }, {
-                "color": "#000000"
-            }, {
-                "lightness": 16
-            }]
-        }, {
-            "elementType": "labels.text.fill",
-            "stylers": [{
-                "saturation": 36
-            }, {
-                "color": "#000000"
-            }, {
-                "lightness": 40
-            }]
-        }, {
-            "elementType": "labels.icon",
-            "stylers": [{
-                "visibility": "off"
-            }]
-        }, {
-            "featureType": "transit",
-            "elementType": "geometry",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 19
-            }]
-        }, {
-            "featureType": "administrative",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 20
-            }]
-        }, {
-            "featureType": "administrative",
-            "elementType": "geometry.stroke",
-            "stylers": [{
-                "color": "#000000"
-            }, {
-                "lightness": 17
-            }, {
-                "weight": 1.2
-            }]
-        }]
-    };
+    //Separate string
+    //"2013-06-18T15:30:00.000Z"
+    oldYear = parseFloat(dateStamp.substring(0,4));
+    oldMonth = parseFloat(dateStamp.substring(5,7));
+    oldDay = parseFloat(dateStamp.substring(8,10));
+    oldHour = parseFloat(dateStamp.substring(11,13));
+    oldMin = parseFloat(dateStamp.substring(14,16));
+    oldSec = parseFloat(dateStamp.substring(17,19));
 
-    // Get the HTML DOM element that will contain your map 
-    // We are using a div with id="map" seen below in the <body>
-    var mapElement = document.getElementById('map');
+    //Converting Interval to years
+    //Where the integers are sectoUnit ratios.
+    addYears = Math.floor(interval / 31536000);
+    addMonths = Math.floor((interval % 31536000) / (2652480 )); 
+    addDays = Math.floor((interval % 31536000)%(2652480) / 86400); 
+    addHours = Math.floor(((interval % 31536000) % 86400) / 3600);
+    addMin = Math.floor((((interval % 31536000) % 86400) % 3600) / 60);
+    addSec = (((interval % 31536000) % 86400) % 3600) % 60;
 
-    // Create the Google Map using out element and options defined above
-    var map = new google.maps.Map(mapElement, mapOptions);
 
-    // Custom Map Marker Icon - Customize the map-marker.png file to customize your icon
-    var image = 'img/map-marker.png';
-    var myLatLng = new google.maps.LatLng(40.6700, -73.9400);
-    var beachMarker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        icon: image
-    });
+    //Adding intervals and the dateStamp
+    //Adding seconds
+
+    temp = oldSec;
+    oldSec = (oldSec + addSec)%minSecRatio;
+    unitCarry1 = Math.floor((temp+addSec)/minSecRatio);
+    
+    temp = oldMin;
+    oldMin = (oldMin+addMin+unitCarry1)%hourMinRatio;
+    unitCarry1 = Math.floor((temp+addMin+unitCarry1)/hourMinRatio);
+
+    temp = oldHour
+    oldHour = (oldHour+addHours+unitCarry1)%dayHourRatio;
+    unitCarry1 = Math.floor((temp+addHours+unitCarry1)/dayHourRatio);
+
+    temp = oldDay;
+    oldDay = Math.round((oldDay+addDays+unitCarry1)%monthDayRatio);
+    unitCarry1 = Math.floor((temp+addDays+unitCarry1)/monthDayRatio);
+
+    temp = oldMonth;
+    oldMonth = (oldMonth+addMonths+unitCarry1)%yearMonthRatio;
+    unitCarry1 = Math.floor((temp+addMonths+unitCarry1)/yearMonthRatio);
+
+    oldYear = (oldYear+addYears+unitCarry1);
+
+
+    //String conversion
+    var dateString = new Array(); 
+    dateString.push(oldYear.toString());
+
+    dateString.push(oldMonth.toString());
+    if(dateString[1].length!=2)
+        dateString[1] = "0" + dateString[1];
+
+    dateString.push(oldDay.toString());
+    if(dateString[2].length!=2)
+        dateString[2] = "0" + dateString[2];
+
+    dateString.push(oldHour.toString());
+    if(dateString[3].length!=2)
+        dateString[3] = "0" + dateString[3];
+
+    dateString.push(oldMin.toString());
+    if(dateString[4].length!=2)
+        dateString[4] = "0" + dateString[4];
+
+    dateString.push(oldSec.toString());
+    if(dateString[5].length!=2)
+        dateString[5] = "0" + dateString[5];
+
+    //"datestamp": "2013-06-18T15:30:00.000Z"
+    var result = dateString[0]+ "-"+dateString[1]+"-"+dateString[2]
+                +"T"+dateString[3]+":"+dateString[4]+":"+dateString[5]
+                +".000Z";
+
+    return result;
+
+
 }
+
+//Example button writes down the prefix and the string array on the textboxes
+$("#exampleIV").click(function(){
+    $("#timeStamp").val("2013-06-18T15:30:00.000Z");
+    $("#interval").val("375274601");
+    
+});
+
+
