@@ -50,34 +50,57 @@ $( "#reverse" ).click(function() {
 ///////////////////////////////////////////////////////
 //Stage II
 ///////////////////////////////////////////////////////
+/**
+ * NAME : find_Neddle button click function
+ *
+ * Grab data from the haystack andneddle text boxes and 
+ * dellegates the search of the index of the string on an 
+ * array of strings. Prints out the of the index if its found
+ * or a it was not found message.
+ */
 
 $( "#find_Neddle" ).click(function() {
 
   var haystack = $("#haystack").val();
   var neddle = $("#neddle").val();
+    //Remove quoatations
+  haystack = haystack.replace(/['"]+/g, '');
+  //Insert the string as a an array on the variable
+  var array = haystack.split(',');
+
   var index;
 
-  index = lookForNeddle(haystack,neddle);
+  //Delegating index to lookForNeddle Function
+  index = lookForNeddle(array,neddle);
       //Print out results 
       if(index == -1)
       {
             //Neddle was not in the haystack
             document.getElementById('result').innerHTML = 'The Neddle was not found';
       }
-      else{
+      if(index>-1){
             //Print out the index
             document.getElementById('result').innerHTML = 'The Neddle is at Index ' + index;
       }
+      if(index==-2){
+        document.getElementById('result').innerHTML = 'Write the neddle and haystack on the texboxes, ' + 
+                            'or look at an example by clicking the example button';
+      }
 
   });
-function lookForNeddle(haystack,neddle) {
-      //Remove quoatations
-  haystack = haystack.replace(/['"]+/g, '');
-  //Insert the string as a an array on the variable
-  var array = haystack.split(',');
+
+
+/**
+ * NAME: lookForNeddle
+ * Looks for the index of a string on an array of strings.
+ * @param haystack : array of strings 
+ * @param neddle :  string to be looked for
+ * @return index of the string on the array.
+ */
+function lookForNeddle(array,neddle) {
   
   var index = 0; 
-  if(haystack&&neddle){
+  if(array&&neddle){
     //Check if the neddle is on the haystack, (comparing string and the array by indexes)
       for(var i = 0; i < array.length;i++){
         //Comparing neddle and every index on the haystack array
@@ -94,18 +117,93 @@ function lookForNeddle(haystack,neddle) {
 
     return index;
 
+    }
+
+    return -2;
 }
-}
+
 ///////////////////////////////////////////////////////
-//Stage II
+//Stage III
 ///////////////////////////////////////////////////////
+/**
+ * NAME : prefixButton button click function
+ *
+ * Grab data from the prefix and stringArray text boxes and 
+ * dellegates the comparison of the beggining of each element 
+ * of the array of strings to the prefix to the stringsWithoutPrefix
+ * function. Prints out the of the the array containing the strings
+ * without the prefix or a "it was not found" message.
+ */
+
+$( "#prefixButton" ).click(function() {
+
+  var prefix = $("#prefix").val();
+  var stringArray = $("#stringArray").val();
+    //Remove quoatations
+  stringArray = stringArray.replace(/['"]+/g, '');
+  //Insert the string as a an array on the variable
+  stringArray = stringArray.split(',');
+
+  var stringResult;
+  //Delegating index to lookForNeddle Function
+  stringResult = stringsWithoutPrefix(stringArray,prefix);
+      //Print out results 
+      if(!stringResult){
+        document.getElementById('resultIII').innerHTML = 'Write the prefix and the string array on the texboxes, ' + 
+                            'or look at an example by clicking the example button';
+      }
+      else{
+        document.getElementById('resultIII').innerHTML = 'The strings that do not contain the prefix are ' + stringResult;
+
+      }
+
+  });
 
 
-//Example button writes down the haystack and the neddle on the textboxes
-$("#exampleII").click(function(){
-    $("#neddle").val("sqNgU");
-    $("#haystack").val('"1rMTE", "bMatw", "LqKjd", "P1PXU", "bDP7z", "tEQDZ", "fJpkW",'+
-        ' "L6G4M", "AACBY", "nc3mF", "0jSIl", "T5W12", "emIep", "sqNgU", "1kTsh", "8d9ri", "0iZrj", "sGTqK", "GKZxv", "cBTWL"');
+/**
+ * NAME: stringsWithoutPrefix
+ * Looks for the strings in an array that do not start with a prefix
+ * and return the string.
+ * @param array : array of strings 
+ * @param neddle :  prefix to be checked
+ * @return array with the strings that do not contain the prefix
+ */
+function stringsWithoutPrefix(array,prefix) {
+  
+  var index = 0; 
+  var prefixLength = prefix.length;
+
+  var result;
+
+  var stringsWithoutPrefix = new Array();;
+    if(array&&prefix){
+    //Iterate thorugh the array, checking if the array element start with the prefix
+        for(var i = 0; i < array.length;i++){
+            /*Comparing neddle and every index on the haystack array
+            Trim is to remove any empety spaces, and we compare the substring
+            since we are only looking at the beginning of the element on the array*/
+            if(prefix != array[i].trim().substring(0,prefixLength)){
+                stringsWithoutPrefix.push(array[i].trim());
+            }
+        }
+
+        //Return result
+        result =  stringsWithoutPrefix;
+
+    }
+
+    else{
+        result= false;   
+    }
+
+    return result;
+
+}
+
+//Example button writes down the prefix and the string array on the textboxes
+$("#exampleIII").click(function(){
+    $("#prefix").val("328");
+    $("#stringArray").val('"405uBrMv", "554ahyBJ", "328pL5h0", "554h6WDR", "554NLOdv", "405DVNK6"');
     
 });
 
