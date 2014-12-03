@@ -1,6 +1,6 @@
-# [Atl's Code2040 API Challenge] - [Code2040](http://atlscode2040.herokuapp.com)
+# [Atl's Code2040 API Challenge] - [Code2040](http://atlcode2040.herokuapp.com)
 
-Link: http://atlscode2040.herokuapp.com
+Link: http://atlcode2040.herokuapp.com
 
 ## About
 This is my submission for the Code2040 API Challenge.
